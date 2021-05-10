@@ -6,7 +6,7 @@ use crate::ai::params::*;
 use super::utils::*;
 
 pub fn simulate() {
-  let mut game = Game::new();
+  let mut game = Game::new(true);
 
   while !game.game_over() {
     if game.should_skip_next_move() {

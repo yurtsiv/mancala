@@ -1,3 +1,4 @@
+use rand::Rng;
 use serde::{Serialize, Deserialize};
 use wasm_bindgen::prelude::*;
 
@@ -37,16 +38,22 @@ pub struct Game {
   current_player: Player,
   game_over: bool,
   board: BoardInternal,
-  should_skip_next_move: bool
+  should_skip_next_move: bool,
+  random_first_move: bool,
+  turns_count: usize,
+  rng: rand::rngs::ThreadRng
 }
 
 impl Game {
-  pub fn new() -> Game {
+  pub fn new(random_first_move: bool) -> Game {
     Game {
       current_player: Player::Player2,
       game_over: false,
       winner: None,
       should_skip_next_move: false,
+      random_first_move,
+      turns_count: 0,
+      rng: rand::thread_rng(),
       board: [
         SEEDS_IN_HOLE,
         SEEDS_IN_HOLE,
@@ -84,7 +91,9 @@ impl Game {
       return None
     }
 
-    let hole = if self.current_player == Player::Player1 {
+    let hole = if self.random_first_move && self.turns_count == 0 {
+      self.rng.gen_range(0, 6)
+    } else if self.current_player == Player::Player1 {
       relative_hole - 1
     } else {
       relative_hole + 6
@@ -104,6 +113,7 @@ impl Game {
     self.should_skip_next_move = !captured && finished_on_well;
     self.switch_players();
     self.check_game_over();
+    self.turns_count += 1;
 
     Some(TurnResult {
       captured,
@@ -150,7 +160,10 @@ impl Game {
       game_over: self.game_over,
       winner: self.winner,
       should_skip_next_move: self.should_skip_next_move,
-      board: self.board.clone()
+      board: self.board.clone(),
+      random_first_move: self.random_first_move,
+      turns_count: self.turns_count,
+      rng: rand::thread_rng()
     }
   }
 

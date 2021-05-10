@@ -26,7 +26,7 @@ fn get_player_turn() -> Option<usize> {
 }
 
 pub fn start_console_ui() {
-  let mut game = Game::new();
+  let mut game = Game::new(false);
 
   // clear_screen();
   while !game.game_over() {

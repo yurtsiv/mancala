@@ -10,7 +10,7 @@ pub struct GameJs {
 impl GameJs {
   pub fn new() -> GameJs {
     GameJs {
-      game: Game::new()
+      game: Game::new(false)
     }
   }
 
