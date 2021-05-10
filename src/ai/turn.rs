@@ -3,15 +3,16 @@ use super::alphabeta::*;
 use crate::game::*;
 
 pub fn next_turn(game: &Game) -> usize {
-  // alphabeta(
-  //   &game,
-  //   0,
-  //   -f32::INFINITY,
-  //   f32::INFINITY
-  // ).0.unwrap()
-
-  minimax(
+  alphabeta(
     &game,
-    0
+    0,
+    -f32::INFINITY,
+    f32::INFINITY,
+    game.current_player()
   ).0.unwrap()
+
+  // minimax(
+  //   &game,
+  //   0
+  // ).0.unwrap()
 }

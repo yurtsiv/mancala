@@ -5,14 +5,13 @@ use crate::game::*;
 // (best move, evaluation)
 type MinimaxRes = (Option<usize>, f32);
 
-pub fn minimax(game: &Game, depth: usize) -> MinimaxRes {
+pub fn minimax(game: &Game, depth: usize, maximizing_player: Player) -> MinimaxRes {
   if depth == TREE_DEPTH || game.game_over() {
-    let e = evaluate_game_state(&game);
-    // print!("\nEVAL {}", e);
+    let e = evaluate_game_state(&game, maximizing_player);
     return (None, e);
   }
 
-  if game.current_player() == AI_PLAYER {
+  if game.current_player() == maximizing_player {
     let mut max_eval = -f32::INFINITY;
     let mut max_eval_move = 0usize;
 
@@ -26,9 +25,7 @@ pub fn minimax(game: &Game, depth: usize) -> MinimaxRes {
         continue; 
       }
 
-      let (_, eval) = minimax(&game_clone, depth + 1);
-
-      // print!("\nDEPTH {} MAXIMIZING {}", depth, eval);
+      let (_, eval) = minimax(&game_clone, depth + 1, maximizing_player);
 
       if eval > max_eval {
         max_eval = eval;
@@ -36,7 +33,6 @@ pub fn minimax(game: &Game, depth: usize) -> MinimaxRes {
       };
     }
 
-    // print!("\nMAX EVAL {}", max_eval);
     return if depth == 0 {
       (Some(max_eval_move), max_eval)
     } else {
@@ -56,15 +52,12 @@ pub fn minimax(game: &Game, depth: usize) -> MinimaxRes {
       continue; 
     }
 
-    let (_, eval) = minimax(&game_clone, depth + 1);
-
-    // print!("\nDEPTH {} MINIMIZING {}", depth, eval);
+    let (_, eval) = minimax(&game_clone, depth + 1, maximizing_player);
 
     if eval < min_eval {
       min_eval = eval;
     };
   }
 
-  // print!("\nMIN EVAL {}", min_eval);
   return (None, min_eval);
 }

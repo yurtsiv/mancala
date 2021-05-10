@@ -3,32 +3,13 @@ use std::io::Write;
 use crate::game::*;
 use crate::ai;
 use crate::ai::params::*;
+use super::utils::*;
 
-fn get_player_str(player: Player) -> &'static str {
-  if player == AI_PLAYER {
-    return "AI";
-  } else {
-    return "Player";
-  };
-}
+const AI_PLAYER: Player = Player::Player1;
 
 fn clear_screen() {
   print!("{}[2J", 27 as char);
   print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-}
-
-fn print_board(board: &Board) {
-  print!("\n\n  ");
-  for s in board.p1_board.iter().rev() {
-    print!(" {}", s);
-  }
-  print!("\n{}               {}", board.p1_well, board.p2_well);
-  print!("\n  ");
-  for s in board.p2_board.iter() {
-    print!(" {}", s);
-  }
-
-  print!("\n");
 }
 
 fn get_player_turn() -> Option<usize> {

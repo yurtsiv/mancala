@@ -5,14 +5,13 @@ use crate::game::*;
 // (best move, evaluation)
 type MinimaxRes = (Option<usize>, f32);
 
-pub fn alphabeta(game: &Game, depth: usize, alpha: f32, beta: f32) -> MinimaxRes {
+pub fn alphabeta(game: &Game, depth: usize, alpha: f32, beta: f32, maximizing_player: Player) -> MinimaxRes {
   if depth == TREE_DEPTH || game.game_over() {
-    let e = evaluate_game_state(&game);
-    // print!("\nEVAL {}", e);
+    let e = evaluate_game_state(&game, maximizing_player);
     return (None, e);
   }
 
-  if game.current_player() == AI_PLAYER {
+  if game.current_player() == maximizing_player {
     let mut max_eval = -f32::INFINITY;
     let mut max_eval_move = 0usize;
     let mut max_alpha = alpha;
@@ -27,7 +26,7 @@ pub fn alphabeta(game: &Game, depth: usize, alpha: f32, beta: f32) -> MinimaxRes
         continue; 
       }
 
-      let (_, eval) = alphabeta(&game_clone, depth + 1, max_alpha, beta);
+      let (_, eval) = alphabeta(&game_clone, depth + 1, max_alpha, beta, maximizing_player);
 
       if eval > max_eval {
         max_eval = eval;
@@ -43,7 +42,6 @@ pub fn alphabeta(game: &Game, depth: usize, alpha: f32, beta: f32) -> MinimaxRes
       }
     }
 
-    // print!("\nMAX EVAL {}", max_eval);
     return if depth == 0 {
       (Some(max_eval_move), max_eval)
     } else {
@@ -64,7 +62,7 @@ pub fn alphabeta(game: &Game, depth: usize, alpha: f32, beta: f32) -> MinimaxRes
       continue; 
     }
 
-    let (_, eval) = alphabeta(&game_clone, depth + 1, alpha, min_beta);
+    let (_, eval) = alphabeta(&game_clone, depth + 1, alpha, min_beta, maximizing_player);
 
     if eval < min_eval {
       min_eval = eval;
@@ -79,6 +77,5 @@ pub fn alphabeta(game: &Game, depth: usize, alpha: f32, beta: f32) -> MinimaxRes
     }
   }
 
-  // print!("\nMIN EVAL {}", min_eval);
   return (None, min_eval);
 }
