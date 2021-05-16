@@ -1,6 +1,5 @@
-mod utils;
-
 use wasm_bindgen::prelude::*;
+mod utils;
 pub mod game;
 pub mod game_js;
 
@@ -9,13 +8,3 @@ pub mod game_js;
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[wasm_bindgen]
-extern {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(format!("Hello, mancala {}", name).as_str());
-}

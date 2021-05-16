@@ -8,9 +8,9 @@ pub struct GameJs {
 
 #[wasm_bindgen]
 impl GameJs {
-  pub fn new() -> GameJs {
+  pub fn new(random_first_move: bool) -> GameJs {
     GameJs {
-      game: Game::new(false)
+      game: Game::new(random_first_move)
     }
   }
 

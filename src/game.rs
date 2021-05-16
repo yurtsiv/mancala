@@ -204,7 +204,7 @@ impl Game {
         return true;
       }
       (Player::Player2, h) if h > 7 => {
-        self.board[PLAYER_2_WELL_IDX] += self.board[opposite_hole];
+        self.board[PLAYER_2_WELL_IDX] += self.board[opposite_hole] + self.board[last_hole];
         self.board[last_hole] = 0;
         self.board[opposite_hole] = 0;
         return true;
