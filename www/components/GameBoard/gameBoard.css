@@ -1,0 +1,42 @@
+.board {
+  height: 80vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.holes {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 50px;
+  margin: 50px;
+}
+
+.hole {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 30px;
+  border: 5px solid #ccc;
+  font-size: 3em;
+}
+
+.hole.clickable {
+  cursor: pointer;
+  border: 5px solid green;
+}
+
+.well {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 150px;
+  border-radius: 30px;
+  border: 5px solid #ccc;
+  font-size: 3em;
+}
