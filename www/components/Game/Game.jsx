@@ -3,8 +3,8 @@ import { GameBoard } from '../GameBoard';
 import { GameOver } from '../GameOver';
 import { useGame } from './useGame';
 
-export function Game({ goToMenu }) {
-  const { game, board, onReplay, onP1Move, onP2Move } = useGame();
+export function Game({ gameConfig, goToMenu }) {
+  const { game, board, onReplay, onP1Move, onP2Move } = useGame(gameConfig);
 
   return (
     <>

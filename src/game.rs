@@ -87,16 +87,20 @@ impl Game {
       return None
     }
 
-    if relative_hole < 1 || relative_hole > 6 {
-      return None
-    }
-
-    let hole = if self.random_first_move && self.turns_count == 0 {
-      self.rng.gen_range(0, 6)
-    } else if self.current_player == Player::Player1 {
-      relative_hole - 1
+    let rel_hole = if self.random_first_move && self.turns_count == 0 {
+      self.rng.gen_range(1, 7)
     } else {
-      relative_hole + 6
+      relative_hole
+    };
+
+    if rel_hole < 1 || rel_hole > 6 {
+      return None
+    };
+
+    let hole = if self.current_player == Player::Player1 {
+      rel_hole - 1
+    } else {
+      rel_hole + 6
     };
 
     if self.board[hole] == 0 {
