@@ -1,10 +1,14 @@
+use wasm_bindgen::prelude::*;
+use std::thread::sleep;
 use super::minimax::*;
 use super::alphabeta::*;
 use super::types::*;
 use crate::game::*;
 
-pub fn next_turn(game: &Game, ai_config: &AIConfig) -> usize {
-  if ai_config.algorithm == Algorithm::AlphaBeta {
+pub fn next_turn(game: &Game, ai_config: &AIConfig) -> AITurnRes {
+  let start_time = instant::Instant::now();
+
+  let hole = if ai_config.algorithm == Algorithm::AlphaBeta {
     alphabeta(
       &game,
       0,
@@ -20,5 +24,10 @@ pub fn next_turn(game: &Game, ai_config: &AIConfig) -> usize {
       game.current_player(),
       ai_config
     ).0.unwrap()
+  };
+
+  AITurnRes {
+    hole,
+    thinking_time: start_time.elapsed().as_millis() as usize
   }
 }

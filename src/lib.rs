@@ -1,7 +1,9 @@
 use wasm_bindgen::prelude::*;
-mod utils;
+
+pub mod utils;
 pub mod game;
 pub mod game_js;
+pub mod ai;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.

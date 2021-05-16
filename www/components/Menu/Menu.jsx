@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { ALGORITHM, HEURISTIC, PLAYER_ROLE } from './const';
 
 import './menu.css';
 
 const DEFAULT_AI_CONFIG = {
   player: 'AI',
   treeDepth: 3,
-  algorithm: 'minimax',
-  heuristics: ['score-diff'],
+  algorithm: 'Minimax',
+  heuristics: ['ScoreDiff'],
 };
 
 function PlayerConfig({ setConfig, config }) {
@@ -24,8 +25,11 @@ function PlayerConfig({ setConfig, config }) {
         name="type"
         onChange={(e) => updateConfig({ player: e.target.value })}
       >
-        <option value="human">Human</option>
-        <option value="AI">AI</option>
+        {Object.entries(PLAYER_ROLE).map(([key, label]) => (
+          <option key={key} value={key}>
+            {label}
+          </option>
+        ))}
       </select>
       {config?.player === 'AI' && (
         <>
@@ -46,8 +50,11 @@ function PlayerConfig({ setConfig, config }) {
               name="algorithm"
               onChange={(e) => updateConfig({ algorithm: e.target.value })}
             >
-              <option value="minimax">Minimax</option>
-              <option value="alpha-beta">Alpha-beta</option>
+              {Object.entries(ALGORITHM).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-input">
@@ -65,12 +72,11 @@ function PlayerConfig({ setConfig, config }) {
               }}
               multiple
             >
-              <option value="score-diff">Score difference</option>
-              <option value="capture-opportunities">
-                Capture opportunities
-              </option>
-              <option value="turn-keeping-moves">Turn keeping moves</option>
-              <option value="winning-moves">Winning moves</option>
+              {Object.entries(HEURISTIC).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
         </>

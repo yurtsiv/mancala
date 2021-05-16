@@ -246,14 +246,32 @@ impl Game {
     self.game_over =
       self.board[..6].iter().all(|&s| s == 0) ||
       self.board[7..13].iter().all(|&s| s == 0);
+  
     
     if self.game_over {
-      let player1_sum: usize = self.board[PLAYER_1_WELL_IDX] + self.board[..6].iter().sum::<usize>();
-      let player2_sum: usize = self.board[PLAYER_2_WELL_IDX] + self.board[7..13].iter().sum::<usize>();
+      let mut player1_sum: usize = self.board[PLAYER_1_WELL_IDX];
+      let mut player2_sum: usize = self.board[PLAYER_2_WELL_IDX];
 
-      self.winner = Some(
-        if player1_sum > player2_sum { Player::Player1 } else { Player::Player2 }
-      );
+      for i in 0..6 {
+        player1_sum += self.board[i];
+        self.board[i] = 0;
+      }
+
+      for i in 7..13 {
+        player2_sum += self.board[i];
+        self.board[i] = 0;
+      }
+
+      self.board[PLAYER_1_WELL_IDX] = player1_sum;
+      self.board[PLAYER_2_WELL_IDX] = player2_sum;
+
+      self.winner = if player1_sum > player2_sum {
+        Some(Player::Player1)
+      } else if player1_sum < player2_sum {
+        Some(Player::Player2)
+      } else {
+        None
+      }
     }
   }
 }

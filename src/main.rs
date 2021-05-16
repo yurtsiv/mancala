@@ -1,4 +1,5 @@
 pub mod game;
+pub mod game_js;
 pub mod ai;
 pub mod play;
 
@@ -13,18 +14,18 @@ fn main() {
       // Heuristic::TurnKeepingMoves,
       // Heuristic::WinningMoves
     ],
-    treeDepth: 6
+    tree_depth: 3
   };
 
   let ai2_config = AIConfig {
     algorithm: Algorithm::Minimax,
     heuristics: vec![
       Heuristic::ScoreDiff,
-      Heuristic::CaptureOpps,
-      Heuristic::TurnKeepingMoves,
-      Heuristic::WinningMoves
+      // Heuristic::CaptureOpps,
+      // Heuristic::TurnKeepingMoves,
+      // Heuristic::WinningMoves
     ],
-    treeDepth: 6
+    tree_depth: 3
   };
 
   // play::human_vs_ai::start_console_ui();

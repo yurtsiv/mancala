@@ -9,7 +9,7 @@ export function Game({ gameConfig, goToMenu }) {
   return (
     <>
       {game.game_over() ? (
-        <GameOver winner={0} goToMenu={goToMenu} onReplay={onReplay} />
+        <GameOver game={game} goToMenu={goToMenu} onReplay={onReplay} />
       ) : (
         <>
           <button onClick={onReplay}>Replay</button>

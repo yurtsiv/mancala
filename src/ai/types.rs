@@ -1,13 +1,15 @@
 use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};
 
-#[derive(Clone, PartialEq, Serialize, Deserialize)]
+#[wasm_bindgen]
+#[derive(Clone, PartialEq)]
 pub enum Algorithm {
   Minimax,
   AlphaBeta
 }
 
-#[derive(Clone, PartialEq, Serialize, Deserialize)]
+#[wasm_bindgen]
+#[derive(Clone, PartialEq, Deserialize)]
 pub enum Heuristic {
   ScoreDiff,
   CaptureOpps,
@@ -15,9 +17,15 @@ pub enum Heuristic {
   WinningMoves
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct AIConfig {
   pub algorithm: Algorithm,
   pub heuristics: Vec<Heuristic>,
-  pub treeDepth: usize
+  pub tree_depth: usize
+}
+
+#[wasm_bindgen]
+pub struct AITurnRes {
+  pub hole: usize,
+  pub thinking_time: usize
 }

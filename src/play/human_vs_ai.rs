@@ -36,15 +36,18 @@ pub fn start_console_ui(ai_config: &AIConfig) {
     }
 
     print_board(&game.board());
-    print!("\n{} turn: ", get_player_str(game.current_player())); 
+    let player_str = get_player_str(game.current_player());
+    print!("\n{} turn: ", player_str); 
     io::stdout().flush().unwrap();
 
     if game.current_player() == AI_PLAYER {
-      let hole = ai::turn::next_turn(&game, ai_config);
-      print!(" {}", hole);
-      if game.turn(hole) == None {
+      let ai_turn_res = ai::turn::next_turn(&game, ai_config);
+      print!(" {}", ai_turn_res.hole);
+      if game.turn(ai_turn_res.hole) == None {
         panic!("AI made invalid move");
       }
+
+      print!("\nMETRIC_time_{} {}", player_str, ai_turn_res.thinking_time);
     } else {
       match get_player_turn() {
         Some(hole) => {
@@ -59,5 +62,5 @@ pub fn start_console_ui(ai_config: &AIConfig) {
 
   print_board(&game.board());
   print!("\nGame over");
-  print!("\nWinner: {}\n", get_player_str(game.winner().unwrap()));
+  print!("\nWinner: {:?}\n", game.winner());
 }

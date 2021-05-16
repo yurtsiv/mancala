@@ -6,7 +6,7 @@ use crate::game::*;
 type MinimaxRes = (Option<usize>, f32);
 
 pub fn minimax(game: &Game, depth: usize, maximizing_player: Player, ai_config: &AIConfig) -> MinimaxRes {
-  if depth == ai_config.treeDepth || game.game_over() {
+  if depth == ai_config.tree_depth || game.game_over() {
     let e = evaluate_game_state(&game, maximizing_player, &ai_config);
     return (None, e);
   }

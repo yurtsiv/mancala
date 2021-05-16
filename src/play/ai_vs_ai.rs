@@ -15,10 +15,11 @@ pub fn simulate(ai1_config: &AIConfig, ai2_config: &AIConfig) {
     }
 
     print_board(&game.board());
-    print!("\n{} turn: ", get_player_str(game.current_player())); 
+    let player_str = get_player_str(game.current_player());
+    print!("\n{} turn: ", player_str); 
     io::stdout().flush().unwrap();
 
-    let hole = ai::turn::next_turn(
+    let ai_turn_res = ai::turn::next_turn(
       &game,
       if game.current_player() == Player::Player1 {
         ai1_config
@@ -27,13 +28,15 @@ pub fn simulate(ai1_config: &AIConfig, ai2_config: &AIConfig) {
       }
     );
 
-    print!(" {}", hole);
-    if game.turn(hole) == None {
+    print!(" {}", ai_turn_res.hole);
+    if game.turn(ai_turn_res.hole) == None {
       panic!("AI made invalid move");
     }
+
+    print!("\nMETRIC_time_{} {}", player_str, ai_turn_res.thinking_time);
   }
 
   print_board(&game.board());
   print!("\nGame over");
-  print!("\nWinner: {}\n", get_player_str(game.winner().unwrap()));
+  print!("\nWinner: {:?}\n", game.winner());
 }
