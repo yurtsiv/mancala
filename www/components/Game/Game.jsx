@@ -8,12 +8,14 @@ export function Game({ goToMenu }) {
 
   return (
     <>
-      <button onClick={onReplay}>Replay</button>
-      <button onClick={goToMenu}>Menu</button>
       {game.game_over() ? (
-        <GameOver goToMenu={goToMenu} onReplay={onReplay} />
+        <GameOver winner={0} goToMenu={goToMenu} onReplay={onReplay} />
       ) : (
-        <GameBoard onP1Move={onP1Move} onP2Move={onP2Move} board={board} />
+        <>
+          <button onClick={onReplay}>Replay</button>
+          <button onClick={goToMenu}>Menu</button>
+          <GameBoard onP1Move={onP1Move} onP2Move={onP2Move} board={board} />
+        </>
       )}
     </>
   );

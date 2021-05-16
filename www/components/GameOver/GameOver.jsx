@@ -1,11 +1,11 @@
 import React from 'react';
 
-export function GameOver({ onReplay }) {
+export function GameOver({ winner, onReplay, goToMenu }) {
   return (
     <>
-      <h1>Game over</h1>
+      <h1>{winner === 0 ? 'Player 1' : 'Player 2'} won</h1>
       <button onClick={onReplay}>Replay</button>
-      <button onClick={onReplay}>Menu</button>
+      <button onClick={goToMenu}>Menu</button>
     </>
   );
 }
