@@ -1,13 +1,13 @@
 use super::heuristics::*;
-use super::params::*;
+use super::types::*;
 use crate::game::*;
 
 // (best move, evaluation)
 type MinimaxRes = (Option<usize>, f32);
 
-pub fn minimax(game: &Game, depth: usize, maximizing_player: Player) -> MinimaxRes {
-  if depth == TREE_DEPTH || game.game_over() {
-    let e = evaluate_game_state(&game, maximizing_player);
+pub fn minimax(game: &Game, depth: usize, maximizing_player: Player, ai_config: &AIConfig) -> MinimaxRes {
+  if depth == ai_config.treeDepth || game.game_over() {
+    let e = evaluate_game_state(&game, maximizing_player, &ai_config);
     return (None, e);
   }
 
@@ -25,7 +25,7 @@ pub fn minimax(game: &Game, depth: usize, maximizing_player: Player) -> MinimaxR
         continue; 
       }
 
-      let (_, eval) = minimax(&game_clone, depth + 1, maximizing_player);
+      let (_, eval) = minimax(&game_clone, depth + 1, maximizing_player, ai_config);
 
       if eval > max_eval {
         max_eval = eval;
@@ -52,7 +52,7 @@ pub fn minimax(game: &Game, depth: usize, maximizing_player: Player) -> MinimaxR
       continue; 
     }
 
-    let (_, eval) = minimax(&game_clone, depth + 1, maximizing_player);
+    let (_, eval) = minimax(&game_clone, depth + 1, maximizing_player, ai_config);
 
     if eval < min_eval {
       min_eval = eval;

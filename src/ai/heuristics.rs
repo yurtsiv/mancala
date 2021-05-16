@@ -1,5 +1,5 @@
 use crate::game::*;
-use super::params::*;
+use super::types::*;
 
 fn score_diff(game: &Game, maximizing_player: Player) -> f32 {
   let res = (game.p1_score() as f32 - game.p2_score() as f32) * (if maximizing_player == Player::Player1 {
@@ -85,9 +85,24 @@ fn turn_keeping_moves(game: &Game, maximizing_player: Player) -> f32 {
   return moves as f32;
 }
 
-pub fn evaluate_game_state(game: &Game, maximizing_player: Player) -> f32 {
-  score_diff(game, maximizing_player) +
-  2_f32 * capture_opportunities(game, maximizing_player) +
-  10_f32 * turn_keeping_moves(game, maximizing_player) +
-  1000_f32 * winning_moves(game, maximizing_player)
+pub fn evaluate_game_state(game: &Game, maximizing_player: Player, ai_config: &AIConfig) -> f32 {
+  let mut result = 0f32;
+
+  if ai_config.heuristics.contains(&Heuristic::ScoreDiff) {
+    result += score_diff(game, maximizing_player)
+  };
+
+  if ai_config.heuristics.contains(&Heuristic::CaptureOpps) {
+    result += 2_f32 * capture_opportunities(game, maximizing_player)
+  };
+
+  if ai_config.heuristics.contains(&Heuristic::TurnKeepingMoves) {
+    result += 10_f32 * turn_keeping_moves(game, maximizing_player)
+  };
+
+  if ai_config.heuristics.contains(&Heuristic::WinningMoves) {
+    result += 1000_f32 * winning_moves(game, maximizing_player)
+  };
+
+  result
 }

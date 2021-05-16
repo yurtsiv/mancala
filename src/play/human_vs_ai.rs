@@ -2,7 +2,7 @@ use std::io;
 use std::io::Write;
 use crate::game::*;
 use crate::ai;
-use crate::ai::params::*;
+use crate::ai::types::*;
 use super::utils::*;
 
 const AI_PLAYER: Player = Player::Player1;
@@ -25,7 +25,7 @@ fn get_player_turn() -> Option<usize> {
   }
 }
 
-pub fn start_console_ui() {
+pub fn start_console_ui(ai_config: &AIConfig) {
   let mut game = Game::new(false);
 
   // clear_screen();
@@ -40,7 +40,7 @@ pub fn start_console_ui() {
     io::stdout().flush().unwrap();
 
     if game.current_player() == AI_PLAYER {
-      let hole = ai::turn::next_turn(&game);
+      let hole = ai::turn::next_turn(&game, ai_config);
       print!(" {}", hole);
       if game.turn(hole) == None {
         panic!("AI made invalid move");
