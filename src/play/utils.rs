@@ -2,9 +2,9 @@ use crate::game::*;
 
 pub fn get_player_str(player: Player) -> &'static str {
   if player == Player::Player1 {
-    "Player 1"
+    "Player1"
   } else {
-    "Player 2"
+    "Player2"
   }
 }
 

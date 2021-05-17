@@ -7,11 +7,6 @@ use super::utils::*;
 
 const AI_PLAYER: Player = Player::Player1;
 
-fn clear_screen() {
-  print!("{}[2J", 27 as char);
-  print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-}
-
 fn get_player_turn() -> Option<usize> {
   let mut input_text = String::new();
   io::stdin()
@@ -28,7 +23,6 @@ fn get_player_turn() -> Option<usize> {
 pub fn start_console_ui(ai_config: &AIConfig) {
   let mut game = Game::new(false);
 
-  // clear_screen();
   while !game.game_over() {
     if game.should_skip_next_move() {
       game.skip_turn();

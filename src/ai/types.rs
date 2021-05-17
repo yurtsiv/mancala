@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::*;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize};
 
 #[wasm_bindgen]
 #[derive(Clone, PartialEq)]

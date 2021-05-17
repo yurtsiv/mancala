@@ -14,7 +14,7 @@ fn main() {
       // Heuristic::TurnKeepingMoves,
       // Heuristic::WinningMoves
     ],
-    tree_depth: 3
+    tree_depth: 7
   };
 
   let ai2_config = AIConfig {
@@ -25,7 +25,7 @@ fn main() {
       // Heuristic::TurnKeepingMoves,
       // Heuristic::WinningMoves
     ],
-    tree_depth: 3
+    tree_depth: 7
   };
 
   // play::human_vs_ai::start_console_ui();

@@ -1,5 +1,3 @@
-use wasm_bindgen::prelude::*;
-use std::thread::sleep;
 use super::minimax::*;
 use super::alphabeta::*;
 use super::types::*;

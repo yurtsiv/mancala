@@ -1,5 +1,3 @@
-use wasm_bindgen::prelude::*;
-
 pub mod utils;
 pub mod game;
 pub mod game_js;
