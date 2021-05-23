@@ -2,9 +2,6 @@ use super::heuristics::*;
 use super::types::*;
 use crate::game::*;
 
-// (best move, evaluation)
-type MinimaxRes = (Option<usize>, f32);
-
 pub fn alphabeta(
   game: &Game,
   depth: usize,
@@ -12,16 +9,21 @@ pub fn alphabeta(
   beta: f32,
   maximizing_player: Player,
   ai_config: &AIConfig
-) -> MinimaxRes {
+) -> AlgorithmRes {
   if depth == ai_config.tree_depth || game.game_over() {
-    let e = evaluate_game_state(&game, maximizing_player, &ai_config);
-    return (None, e);
+    let eval = evaluate_game_state(&game, maximizing_player, &ai_config);
+    return AlgorithmRes {
+      best_move: None,
+      eval,
+      nodes_visited: 0
+    }
   }
 
   if game.current_player() == maximizing_player {
     let mut max_eval = -f32::INFINITY;
     let mut max_eval_move = 0usize;
     let mut max_alpha = alpha;
+    let mut nodes_visited = 0usize;
 
     for player_move in 1..7 {
       let mut game_clone = game.clone();
@@ -33,31 +35,41 @@ pub fn alphabeta(
         continue; 
       }
 
-      let (_, eval) = alphabeta(&game_clone, depth + 1, max_alpha, beta, maximizing_player, ai_config);
+      let res = alphabeta(&game_clone, depth + 1, max_alpha, beta, maximizing_player, ai_config);
+      nodes_visited += res.nodes_visited + 1;
 
-      if eval > max_eval {
-        max_eval = eval;
+      if res.eval > max_eval {
+        max_eval = res.eval;
         max_eval_move = player_move;
       };
 
-      if eval >= beta {
+      if res.eval >= beta {
         break;
       }
 
-      if eval > max_alpha {
-        max_alpha = eval;
+      if res.eval > max_alpha {
+        max_alpha = res.eval;
       }
     }
 
     return if depth == 0 {
-      (Some(max_eval_move), max_eval)
+      AlgorithmRes {
+        best_move: Some(max_eval_move),
+        eval: max_eval,
+        nodes_visited
+      }
     } else {
-      (None, max_eval)
+      AlgorithmRes {
+        best_move: None,
+        eval: max_eval,
+        nodes_visited
+      }
     };
   }
 
   let mut min_eval = f32::INFINITY;
   let mut min_beta = beta;
+  let mut nodes_visited = 0usize;
 
   for player_move in 1..7 {
     let mut game_clone = game.clone();
@@ -69,20 +81,25 @@ pub fn alphabeta(
       continue; 
     }
 
-    let (_, eval) = alphabeta(&game_clone, depth + 1, alpha, min_beta, maximizing_player, ai_config);
+    let res = alphabeta(&game_clone, depth + 1, alpha, min_beta, maximizing_player, ai_config);
+    nodes_visited += res.nodes_visited + 1;
 
-    if eval < min_eval {
-      min_eval = eval;
+    if res.eval < min_eval {
+      min_eval = res.eval;
     }
 
-    if eval <= alpha {
+    if res.eval <= alpha {
       break;
     }
 
-    if eval < min_beta {
-      min_beta = eval;
+    if res.eval < min_beta {
+      min_beta = res.eval;
     }
   }
 
-  return (None, min_eval);
+  return AlgorithmRes {
+    best_move: None,
+    eval: min_eval,
+    nodes_visited
+  }
 }

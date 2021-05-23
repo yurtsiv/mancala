@@ -27,6 +27,7 @@ pub fn simulate(ai1_config: &AIConfig, ai2_config: &AIConfig) {
 
     let player_str = get_player_str(game.current_player());
     print!("\nMETRIC time {} {}", player_str, ai_turn_res.thinking_time);
+    print!("\nMETRIC nodes {} {}", player_str, ai_turn_res.nodes_visited);
   }
 
   print!("\nMETRIC winner {:?}\n", game.winner());
